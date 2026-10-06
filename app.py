@@ -1,3 +1,7 @@
+
+#to run the app install : pip install streamlit
+# then this command : streamlit run app.py
+
 import json
 import pandas as pd
 import streamlit as st
