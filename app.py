@@ -53,7 +53,6 @@ def load_sentiment_model():
     )
 
 
-sentiment_model = load_sentiment_model()
 
 
 # --------------------------------------------------
@@ -167,18 +166,13 @@ if page == "Category Insights":
 # --------------------------------------------------
 # PAGE 2 - PRODUCT EXPLORER
 # --------------------------------------------------
-
 elif page == "Product Explorer":
 
     st.header("Product Explorer")
 
     category = st.selectbox(
         "Select category",
-        sorted(
-            products_df["meta_category"]
-            .dropna()
-            .unique()
-        )
+        sorted(products_df["meta_category"].dropna().unique())
     )
 
     category_products = products_df[
@@ -189,18 +183,13 @@ elif page == "Product Explorer":
         f"Products found: {len(category_products)}"
     )
 
-    display_columns = [
-        "product_id",
-        "product_name",
-        "brand"
-    ]
-
     st.dataframe(
-        category_products[display_columns],
+        category_products[
+            ["product_id", "product_name", "brand"]
+        ],
         use_container_width=True,
         hide_index=True
     )
-
 
 # --------------------------------------------------
 # PAGE 3 - REVIEW ANALYZER
@@ -222,7 +211,15 @@ elif page == "Review Analyzer":
 
         if review.strip():
 
-            result = sentiment_model(review)[0]
+            with st.spinner("Analyzing review..."):
+
+                sentiment_model = load_sentiment_model()
+
+                result = sentiment_model(
+                    review,
+                    truncation=True,
+                    max_length=512
+                )[0]
 
             sentiment = result["label"]
             confidence = result["score"]
