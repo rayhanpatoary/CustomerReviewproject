@@ -1,10 +1,24 @@
 # Virtual environments
 .reviewprojectenv/
-.venv/
-venv/
-# Python
+.deploytestenv/
+data/1429_1.csv
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Local trained models
+distilbert_sentiment_model/
+
+# Environment/secrets
+.env
+
+# Raw datasets - not needed by deployed app
+data/*
+
+# Keep only processed app data
+!data/app_reviews.csv
+!data/products.csv
